@@ -1,7 +1,17 @@
 const fs = require('fs'); //this tells node that we need this module (set of functions and attributes)
 console.log("Welcome to remindme");
-const reminders = "take a nap";
+const reminders = [
+    "get some milk", //0
+    "work out", //1
+    "get groceries", //2
+    "groom the dog", //3
+    "take a nap" //4
+];
 const reminderFile = "reminders.txt";
 
-fs.writeFileSync(reminderFile, reminders);
+//for loop 
+for(let i = 0; i < reminders.length; i += 1){
+    const reminder = reminders[i];
+    fs.appendFileSync(reminderFile, reminder + '\n');
+}
 console.log("Wrote all of the reminders to the file");
