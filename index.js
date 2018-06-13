@@ -1,5 +1,8 @@
 const fs = require('fs'); //this tells node that we need this module (set of functions and attributes)
 console.log("Welcome to remindme");
+
+const reminderFile = "reminders.txt";
+fs.unlinkSync(reminderFile);
 const reminders = [
     "get some milk", //0
     "work out", //1
@@ -14,7 +17,6 @@ const dates = [
     new Date(),
     new Date()
 ];
-const reminderFile = "reminders.txt";
 
 //for loop 
 for(let i = 0; i < reminders.length; i += 1){
