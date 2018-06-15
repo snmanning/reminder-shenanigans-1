@@ -21,12 +21,25 @@ const dates = [
 const args = process.argv.slice(2);
 const subcommand = args[0];
 if(subcommand === 'list'){
+    list();
+} else if(subcommand === 'add'){
+    add();    
+} else {
+    help();
+}
+
+console.log("Completed your request.");
+process.exit(0);
+
+function list(){
     console.log('Here are the things that you need to do...');
     reminders.forEach((reminder, index) => {
         const line = `-     ${reminder}           Due: ${dates[index]}`;
         console.log(line);
     });
-} else if(subcommand === 'add'){
+}
+
+function add(){
     console.log('add');
     fs.unlinkSync(reminderFile);
     for(let i = 0; i < reminders.length; i += 1){
@@ -35,12 +48,8 @@ if(subcommand === 'list'){
         const line = `${reminder}|${date}\n`;
         fs.appendFileSync(reminderFile, line);
     }
-} else {
-    console.log('Please check your command syntax');
 }
 
-console.log("Completed your request.");
-process.exit(0);
-
-
-
+function help(){
+    console.log('Please check your command syntax');
+}
