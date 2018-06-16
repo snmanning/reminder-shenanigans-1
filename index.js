@@ -10,7 +10,8 @@ const subcommand = args[0];
 if(subcommand === 'list'){
     list();
 } else if(subcommand === 'add'){
-    add();    
+    const reminder = args[1];
+    add(reminder);    
 } else {
     help();
 }
@@ -31,12 +32,15 @@ function list(){
     console.log(output);
 }
 
-function add(){
+function add(addition){
     console.log('Adding a new reminder...');
     const lines = fs.readFileSync(reminderFile, 'utf8').split('\n');
     const parsedLines = lines.map(line => line.split("|"));
+    // parsedLines.push([addition, new Date()]);
+    const newLine = [[addition, new Date()]];
+    const withAddition = parsedLines.concat(newLine);
     fs.unlinkSync(reminderFile);
-    const outputLines = parsedLines.map(line => {
+    const outputLines = withAddition.map(line => {
         const reminder = line[0];
         const date = line[1];
         return `${reminder}|${date}`;
