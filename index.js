@@ -16,6 +16,7 @@ const dates = [
     new Date(),
     new Date()
 ];
+
 //list command, where all of the reminders are printed
 //add command where we can add a reminder
 const args = process.argv.slice(2);
@@ -33,10 +34,15 @@ process.exit(0);
 
 function list(){
     console.log('Here are the things that you need to do...');
-    reminders.forEach((reminder, index) => {
-        const line = `-     ${reminder}           Due: ${dates[index]}`;
-        console.log(line);
+    const lines = fs.readFileSync(reminderFile, 'utf8').split('\n');
+    const parsedLines = lines.map(line => line.split("|"));
+    const humanFriendlyLines = parsedLines.map(parsedLine => {
+        const reminder = parsedLine[0];
+        const date = parsedLine[1];
+        return `-     ${reminder}           Due: ${date}`;
     });
+    const output = humanFriendlyLines.join('\n');
+    console.log(output);
 }
 
 function add(){
