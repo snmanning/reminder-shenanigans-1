@@ -2,20 +2,6 @@ const fs = require('fs'); //this tells node that we need this module (set of fun
 
 const reminderFile = "reminders.txt";
 
-const reminders = [
-    "get some milk", //0
-    "work out", //1
-    "get groceries", //2
-    "groom the dog", //3
-    "take a nap" //4
-];
-const dates = [
-    new Date(),
-    new Date(),
-    new Date(),
-    new Date(),
-    new Date()
-];
 
 //list command, where all of the reminders are printed
 //add command where we can add a reminder
@@ -46,14 +32,17 @@ function list(){
 }
 
 function add(){
-    console.log('add');
+    console.log('Adding a new reminder...');
+    const lines = fs.readFileSync(reminderFile, 'utf8').split('\n');
+    const parsedLines = lines.map(line => line.split("|"));
     fs.unlinkSync(reminderFile);
-    for(let i = 0; i < reminders.length; i += 1){
-        const reminder = reminders[i];
-        const date = dates[i];
-        const line = `${reminder}|${date}\n`;
-        fs.appendFileSync(reminderFile, line);
-    }
+    const outputLines = parsedLines.map(line => {
+        const reminder = line[0];
+        const date = line[1];
+        return `${reminder}|${date}`;
+    });
+    const output = outputLines.join('\n');
+    fs.appendFileSync(reminderFile, output);
 }
 
 function help(){
